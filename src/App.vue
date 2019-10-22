@@ -1,13 +1,25 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <Button>我是好人</Button>
+    <Field v-model="value" placeholder="请输入用户名" />
   </div>
 </template>
+<script>
+import { Button, Field } from 'vant'
 
+export default {
+  name: 'app',
+  components: {
+    Button,
+    Field
+  },
+  data () {
+    return {
+      value: ''
+    }
+  }
+}
+</script>
 <style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
