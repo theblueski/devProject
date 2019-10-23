@@ -1,17 +1,31 @@
+<!--
+ * @Author: your name
+ * @Date: 2019-10-22 22:12:01
+ * @LastEditTime: 2019-10-24 00:05:59
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /devProject/src/App.vue
+ -->
+
 <template>
   <div id="app">
-    <Button>我是好人</Button>
-    <Field v-model="value" placeholder="请输入用户名" />
+    <div class="view-container">
+      <router-view></router-view>
+    </div>
+    <div class="buttom-menu">
+      <buttomMenu></buttomMenu>
+    </div>
   </div>
 </template>
 <script>
-import { Button, Field } from 'vant'
-
+import { Row, Col } from 'vant'
+import buttomMenu from '@/components/commonponent/buttomMenu'
 export default {
   name: 'app',
   components: {
-    Button,
-    Field
+    [Row.name]: Row,
+    [Col.name]: Col,
+    buttomMenu
   },
   data () {
     return {
@@ -27,18 +41,16 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  .view-container {
+    flex: 1;
+  }
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  .buttom-menu {
+    height: 64px;
   }
 }
 </style>
