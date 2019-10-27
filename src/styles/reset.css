@@ -6,6 +6,11 @@ html,body,ul,li,ol,dl,dd,dt,p,h1,h2,h3,h4,h5,h6,form,fieldset,legend,img {
 fieldset,img {
     border: 0
 }
+
+body {
+    background: #f0eff5;
+}
+
 img {
     display: block
 }
@@ -41,4 +46,12 @@ textarea {
 }
 table {
     border-collapse: collapse
+}
+
+.van-field__body input {
+    line-height: inherit
+}
+
+.van-field__body textarea {
+    line-height: inherit
 }
