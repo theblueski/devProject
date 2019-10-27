@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-27 10:58:18
- * @LastEditTime: 2019-10-27 22:16:23
+ * @LastEditTime: 2019-10-27 23:14:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/router/index.js
@@ -53,6 +53,11 @@ const routes = [
     path: '/caseDetail',
     name: 'caseDetail',
     component: () => import(/* webpackChunkName: "submitInfo" */ '@/views/mine/caseDetail/index.vue')
+  },
+  {
+    path: '/graphicPage',
+    name: 'graphicPage',
+    component: () => import(/* webpackChunkName: "submitInfo" */ '@/views/mine/deviceGraphic/index.vue')
   }
 ]
 
