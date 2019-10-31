@@ -7,11 +7,12 @@ import Vue from 'vue'
 
 // 创建axios实例
 const service = axios.create({
+  // baseURL: 'https://www.orthchina.cn',
   timeout: 5000,
   paramsSerializer (params) {
     return Qs.stringify(params, { arrayFormat: 'brackets' })
   }
-  // withCredentials: true,
+  // withCredentials: true
 })
 
 // request拦截器

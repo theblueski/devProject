@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import { uploadImage } from '@/api/upload'
 import imgPreview from '@/components/imgPreview'
+import { uploadImage } from '@/api/upload'
 
 export default {
   name: 'upLoader',
@@ -71,6 +71,7 @@ export default {
     fileChange (e) {
       const _this = this
       const file = e.target.files[0]
+      const fileName = file.name
       const reader = new FileReader()
       const image = new Image()
       reader.onload = e => {
@@ -105,14 +106,27 @@ export default {
 
         const newUrl = canvas.toDataURL('image/jpeg', 0.92)
         _this.picList.push(newUrl)
-        // _this.doUpload(newUrl)
+        _this.doUpload(newUrl, fileName)
       }
       reader.readAsDataURL(file)
     },
-    doUpload (url) {
-      uploadImage({ url }).then(res => {
-        this.picList.push(res)
+    doUpload (url, fileName) {
+      const blob = this.dataURItoBlob(url)
+      const fd = new FormData()
+      fd.append('file', blob, fileName)
+      uploadImage(fd).then(res => {
+        console.log(res)
       })
+    },
+    dataURItoBlob (dataURI) {
+      let byteString = atob(dataURI.split(',')[1])
+      let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+      let ab = new ArrayBuffer(byteString.length)
+      let ia = new Uint8Array(ab)
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i)
+      }
+      return new Blob([ab], { type: mimeString })
     }
   },
   computed: {
