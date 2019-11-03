@@ -5,6 +5,14 @@ function resolve (dir) {
 }
 
 module.exports = {
+  devServer: {
+    proxy: {
+      '/smartfeet': {
+        target: 'https://www.orthchina.cn',
+        secure: false
+      }
+    }
+  },
   configureWebpack: {
     resolve: {
       alias: {
