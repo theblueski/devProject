@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-28 23:20:27
- * @LastEditTime: 2019-10-29 00:36:57
+ * @LastEditTime: 2019-11-02 22:57:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/views/mine/deviceGraphic/graphicDetail/index.vue
@@ -42,6 +42,23 @@
         <van-button type="info" size="small">查询</van-button>
       </div>
     </div>
+    <div class="device-list">
+      <deviceList></deviceList>
+    </div>
+    <div class="device-table-data">
+      <list>
+        <div class="div-row">
+          <div class="list-line-layout">日期</div>
+          <div class="list-line-layout">后跟穿戴时长(h)</div>
+          <div class="list-line-layout">前足穿戴时长(h)</div>
+        </div>
+        <div class="div-row" v-for="(item,index) in deviceData" :key="index">
+          <div>{{item.date}}</div>
+          <div>{{item.frontTime}}</div>
+          <div>{{item.endTime}}</div>
+        </div>
+      </list>
+    </div>
     <div class="box-picker">
       <datetime-picker
         size="small"
@@ -56,12 +73,16 @@
   </section>
 </template>
 <script>
-import { DatetimePicker, Field, Button } from 'vant'
+import { DatetimePicker, Field, Button, List } from 'vant'
+import deviceList from '@/components/graphicDetail/deviceList'
 export default {
   components: {
     DatetimePicker,
     Field,
-    [Button.name]: Button
+    [Button.name]: Button,
+    deviceList,
+    List
+
   },
   data: function () {
     return {
@@ -69,7 +90,19 @@ export default {
       dateType: '', // begain end
       begainDate: '',
       endDate: '',
-      showDate: false
+      showDate: false,
+      showEndDate: false,
+      deviceData: []
+    }
+  },
+  created () {
+    for (var i = 0; i < 30; i++) {
+      this.deviceData.push({
+        date: '2019-09-21',
+        frontTime: '12',
+        endTime: '2'
+
+      })
     }
   },
   methods: {
@@ -95,11 +128,29 @@ export default {
 </script>
 <style lang="scss" scoped>
 .box-wrapper {
-  padding: 20px;
+  overflow-y: auto;
   .box-picker {
     position: absolute;
     bottom: 0;
     width: 90%;
+  }
+  .device-list {
+    border-bottom: 10px solid #f2f2f2;
+  }
+  .device-table-data {
+    .div-row {
+      display: flex;
+      flex-direction: row;
+      align-content: left;
+      align-items: center;
+      padding: 0 20px;
+      & > div {
+        flex: 1;
+        height: 31px;
+        line-height: 31px;
+        border-bottom: 1px solid #f2f2f2;
+      }
+    }
   }
 }
 .begain-input {
@@ -110,6 +161,8 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  border-bottom: 10px solid #f2f2f2;
+  padding: 20px;
   > .date-box {
     flex: 1;
   }
