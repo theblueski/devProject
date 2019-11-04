@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2019-11-03 16:51:14
+ * @LastEditTime: 2019-11-03 21:12:19
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /devProject/src/utils/fetch.js
+ */
 import axios from 'axios'
 import Qs from 'qs'
 
@@ -31,7 +39,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
   response => {
     const res = response.data
-    if (res.status !== 200) {
+    if (res.code !== '200') {
       return Promise.reject('error') // eslint-disable-line
     } else {
       return response.data

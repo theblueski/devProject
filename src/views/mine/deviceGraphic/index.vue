@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-27 23:11:03
- * @LastEditTime: 2019-11-03 16:50:53
+ * @LastEditTime: 2019-11-04 23:33:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/views/mine/deviceGraphic/index.vue
@@ -26,6 +26,8 @@
 </template>
 <script>
 import Echarts from 'echarts'
+import { deviceGraphicDataForId } from '@/api/upload.js'
+import { formatDate } from '@/utils/format.js'
 export default {
   data: function () {
     return {
@@ -33,6 +35,12 @@ export default {
       periodDays: 7,
       cycleTime: [{ time: 7, active: true }, { time: 30 }, { time: 90 }, { time: '详情' }],
       lineCharts: null,
+      graphicData: {
+        startDate: '2018-12-26',
+        endDate: '2019-01-01',
+        deviceId: this.$route.query.id || 'F8:36:9B:75:B8:32',
+        unionid: 'oYEDb4puZXiJ5kngE-FaTVcN1wuo'
+      },
       lineOption: {
         title: {
           //   text: '消费逐月消费趋势'
@@ -66,7 +74,7 @@ export default {
           //     fontSize: 14,
           //     padding: [0, 0, 0, 50]
           //   },
-          data: ['5-13', '5-14', '5-15', '5-16', '5-17', '5-17', '5-17']
+          data: []
         },
         yAxis: {
           type: 'value',
@@ -96,14 +104,49 @@ export default {
       }
     }
   },
+  created () {
+    console.log(this.$route.query.id)
+    this.formatParams(this.periodDays)
+    this.getGraphicData()
+  },
   mounted () {
     this.$nextTick(() => {
-      this.lineCharts = Echarts.init(document.getElementById('lineChart'))
-      this.lineCharts.setOption(this.lineOption)
-      window.addEventListener('resize', this.handleResize)
+
     })
   },
   methods: {
+    formatParams (time) {
+      let date = new Date()
+      let now = formatDate(date)
+      let pre = formatDate(date.getTime() - time * 24 * 60 * 60 * 1000)
+      this.graphicData.startDate = pre
+      this.graphicData.endDate = now
+    },
+    getGraphicData () {
+      let data = `startDate=${this.graphicData['startDate']}&endDate=${this.graphicData['endDate']}&unionid=${this.graphicData['unionid']}&deviceId=${this.graphicData['deviceId']}`
+      deviceGraphicDataForId(data).then((res) => {
+        this.formatDate(res.data.dataMap)
+      })
+    },
+    // 获取日期数组
+    formatDate (dateObj) {
+      let arrValBehind = []
+      let arrValBefore = []
+      let arrKeysBehind = Object.keys(dateObj.behind).sort((a, b) => { return -1 })
+      let formatArr = arrKeysBehind.map((item, index) => {
+        let valIndex = item.indexOf('-')
+        arrValBehind.push(dateObj.behind[item])
+        arrValBefore.push(dateObj.before[item])
+        return item.slice(valIndex + 1)
+      })
+
+      this.lineOption.xAxis.data = formatArr
+      this.lineOption.series[0].data = arrValBefore
+      this.lineOption.series[1].data = arrValBehind
+
+      this.initialPraphic()
+      console.log(this.lineOption.yAxis.data)
+    },
     handleResize () {
       this.lineCharts.resize()
     },
@@ -114,13 +157,22 @@ export default {
       this.cycleTime.forEach((item, index) => {
         if (i === index) {
           item.active = true
+          this.periodDays = item.time
+          this.formatParams(this.periodDays)
+          this.getGraphicData()
         } else {
           item.active = false
         }
       })
       this.$forceUpdate()
+    },
+    initialPraphic () {
+      this.lineCharts = Echarts.init(document.getElementById('lineChart'))
+      this.lineCharts.setOption(this.lineOption)
+      window.addEventListener('resize', this.handleResize)
     }
   },
+
   beforeDestroy () {
     window.removeEventListener('resize', this.handleResize)
     this.lineCharts.dispose()
