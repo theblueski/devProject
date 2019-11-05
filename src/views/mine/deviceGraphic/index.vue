@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-27 23:11:03
- * @LastEditTime: 2019-11-04 23:33:10
+ * @LastEditTime: 2019-11-06 00:09:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/views/mine/deviceGraphic/index.vue
@@ -105,7 +105,6 @@ export default {
     }
   },
   created () {
-    console.log(this.$route.query.id)
     this.formatParams(this.periodDays)
     this.getGraphicData()
   },
@@ -145,7 +144,6 @@ export default {
       this.lineOption.series[1].data = arrValBehind
 
       this.initialPraphic()
-      console.log(this.lineOption.yAxis.data)
     },
     handleResize () {
       this.lineCharts.resize()
@@ -155,6 +153,16 @@ export default {
         return
       }
       this.cycleTime.forEach((item, index) => {
+        if (index === 3) {
+          this.$router.push({
+            name: 'graphicDetail',
+            query: {
+              startDate: this.graphicData.startDate,
+              endDate: this.graphicData.endDate,
+              deviceId: this.graphicData.deviceId
+            }
+          })
+        }
         if (i === index) {
           item.active = true
           this.periodDays = item.time

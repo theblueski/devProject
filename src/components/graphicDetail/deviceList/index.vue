@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-29 21:46:56
- * @LastEditTime: 2019-11-02 22:01:00
+ * @LastEditTime: 2019-11-06 00:09:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/components/graphicDetail/index.vue
@@ -23,8 +23,6 @@
             <td>
               <radio :name="index+1"></radio>
             </td>
-            <td>222</td>
-            <td>333</td>
           </tr>
         </radio-group>
       </tbody>
@@ -35,14 +33,14 @@
       <div :style="{width:'100px'}">绑定时间</div>
       <div :style="{width:'100px'}">支具编码</div>
     </div>
-    <radio-group v-model="radio">
+    <radio-group v-model="currentRadio" @change="radioChange">
       <div>
         <div class="table-td" v-for="(item,index) in deviceList" :key="index">
           <div :style="{width:'50px','padding-top':'6px'}">
-            <radio :name="index+1"></radio>
+            <radio :name="item.radioNo"></radio>
           </div>
           <div :style="{width:'50px'}">{{item.deviceName}}</div>
-          <div :style="{width:'100px'}">{{item.date}}</div>
+          <div :style="{width:'100px'}">{{item.bindTime}}</div>
           <div :style="{width:'100px'}">{{item.deviceId}}</div>
         </div>
       </div>
@@ -62,13 +60,36 @@ export default {
       default: function () {
         return []
       }
+    },
+    deviceList: {
+      type: Array,
+      default: function () {
+        return [{ deviceName: '支具-01', bindTime: '2019-10-22', deviceId: 'id-238837827' }, { deviceName: '支具-02', bindTime: '2019-10-22', deviceId: 'id-238837827' }, { deviceName: '汇总', date: '', deviceId: '' }]
+      }
+    },
+    radio: {
+      type: Number,
+      default: 1
     }
   },
   data: function () {
     return {
-      radio: 1,
-      radioTotal: 'total',
-      deviceList: [{ deviceName: '支具-01', date: '2019-10-22', deviceId: 'id-238837827' }, { deviceName: '支具-02', date: '2019-10-22', deviceId: 'id-238837827' }, { deviceName: '汇总', date: '', deviceId: '' }]
+      currentRadio: 1,
+      radioTotal: 'total'
+      // deviceList: [{ deviceName: '支具-01', date: '2019-10-22', deviceId: 'id-238837827' }, { deviceName: '支具-02', date: '2019-10-22', deviceId: 'id-238837827' }, { deviceName: '汇总', date: '', deviceId: '' }]
+    }
+  },
+  created () {
+    this.currentRadio = this.radio
+  },
+  methods: {
+    radioChange (name) {
+      this.$emit('select', name)
+    }
+  },
+  watch: {
+    radio: function (newVal) {
+      this.currentRadio = newVal
     }
   }
 }
