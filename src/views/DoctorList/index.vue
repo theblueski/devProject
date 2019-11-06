@@ -53,6 +53,13 @@ export default {
   },
   created () {
     this.getDoctorList()
+  },
+  watch: {
+    searchStr (val) {
+      if (!val) {
+        this.showList = this.originList
+      }
+    }
   }
 }
 </script>
