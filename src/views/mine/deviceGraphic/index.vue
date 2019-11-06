@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-27 23:11:03
- * @LastEditTime: 2019-11-06 00:09:16
+ * @LastEditTime: 2019-11-06 22:18:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/views/mine/deviceGraphic/index.vue
@@ -31,7 +31,7 @@ import { formatDate } from '@/utils/format.js'
 export default {
   data: function () {
     return {
-      totalDays: 73,
+      totalDays: 0,
       periodDays: 7,
       cycleTime: [{ time: 7, active: true }, { time: 30 }, { time: 90 }, { time: '详情' }],
       lineCharts: null,
@@ -124,6 +124,7 @@ export default {
     getGraphicData () {
       let data = `startDate=${this.graphicData['startDate']}&endDate=${this.graphicData['endDate']}&unionid=${this.graphicData['unionid']}&deviceId=${this.graphicData['deviceId']}`
       deviceGraphicDataForId(data).then((res) => {
+        this.totalDays = res.data.totalWearDays
         this.formatDate(res.data.dataMap)
       })
     },
@@ -152,17 +153,17 @@ export default {
       if (this.cycleTime[i].active) {
         return
       }
+      if (i === 3) {
+        this.$router.push({
+          name: 'graphicDetail',
+          query: {
+            startDate: this.graphicData.startDate,
+            endDate: this.graphicData.endDate,
+            deviceId: this.graphicData.deviceId
+          }
+        })
+      }
       this.cycleTime.forEach((item, index) => {
-        if (index === 3) {
-          this.$router.push({
-            name: 'graphicDetail',
-            query: {
-              startDate: this.graphicData.startDate,
-              endDate: this.graphicData.endDate,
-              deviceId: this.graphicData.deviceId
-            }
-          })
-        }
         if (i === index) {
           item.active = true
           this.periodDays = item.time

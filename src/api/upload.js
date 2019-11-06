@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-11-03 16:51:14
- * @LastEditTime: 2019-11-04 23:35:01
+ * @LastEditTime: 2019-11-06 23:00:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/api/upload.js
@@ -49,6 +49,32 @@ export function deviceGraphicData (data) {
 export function deviceGraphicDataForId (data) {
   return fetch.post(
     '/smartfeet/queryRecordChartFromApp',
+    data,
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+  )
+}
+// 获取新闻列表
+export function queryNewsList (data) {
+  return fetch.post(
+    '/smartfeet/news/newsList',
+    data,
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+  )
+}
+// 获取新闻内容
+export function queryNewsContent (data) {
+  return fetch.post(
+    '/smartfeet/news/newsDetail',
     data,
     {
       withCredentials: true,
