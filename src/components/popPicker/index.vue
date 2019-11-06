@@ -34,9 +34,9 @@ export default {
     }
   },
   methods: {
-    onConfirm (...args) {
+    onConfirm (data) {
       this.show = false
-      this.$emit('confirm', args)
+      this.$emit('confirm', data)
     }
   },
   watch: {

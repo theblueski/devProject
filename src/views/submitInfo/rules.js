@@ -23,13 +23,13 @@ export default {
       message: '请输入医生信息'
     }
   ],
-  beforeDeal: [
+  castsTimes: [
     {
       required: true,
-      message: '术前石膏次数'
+      message: '请输入术前石膏次数'
     }
   ],
-  startCure: [
+  startTreatDate: [
     {
       required: true,
       message: '请选择开始治疗时间'

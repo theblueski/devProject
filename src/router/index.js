@@ -37,32 +37,40 @@ const routes = [
   {
     path: '/submitInfo',
     name: 'submitInfo',
-    component: () => import(/* webpackChunkName: "submitInfo" */ '@/views/submitInfo/index.vue')
+    component: () => import(/* webpackChunkName: "submitInfo" */ '@/views/submitInfo/index.vue'),
+    meta: {
+      keepAlive: true
+    }
   },
   {
     path: '/mine',
     name: 'mine',
-    component: () => import(/* webpackChunkName: "submitInfo" */ '@/views/mine/index.vue')
+    component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/index.vue')
   },
   {
     path: '/deviceList',
     name: 'deviceList',
-    component: () => import(/* webpackChunkName: "submitInfo" */ '@/views/mine/deviceList/index.vue')
+    component: () => import(/* webpackChunkName: "deviceList" */ '@/views/mine/deviceList/index.vue')
   },
   {
     path: '/caseDetail',
     name: 'caseDetail',
-    component: () => import(/* webpackChunkName: "submitInfo" */ '@/views/mine/caseDetail/index.vue')
+    component: () => import(/* webpackChunkName: "caseDetail" */ '@/views/mine/caseDetail/index.vue')
   },
   {
     path: '/graphicPage',
     name: 'graphicPage',
-    component: () => import(/* webpackChunkName: "submitInfo" */ '@/views/mine/deviceGraphic/index.vue')
+    component: () => import(/* webpackChunkName: "graphicPage" */ '@/views/mine/deviceGraphic/index.vue')
   },
   {
     path: '/graphicDetail',
     name: 'graphicDetail',
-    component: () => import(/* webpackChunkName: "submitInfo" */ '@/views/mine/deviceGraphic/graphicDetail/index.vue')
+    component: () => import(/* webpackChunkName: "graphicDetail" */ '@/views/mine/deviceGraphic/graphicDetail/index.vue')
+  },
+  {
+    path: '/doctorList',
+    name: 'doctorList',
+    component: () => import(/* webpackChunkName: "doctorList" */ '@/views/DoctorList/index.vue')
   }
 ]
 

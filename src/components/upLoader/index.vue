@@ -8,7 +8,7 @@
         <img :src="item" alt="">
         <div class="del-area"  @click.self.stop="removePic(index)">删除</div>
       </div>
-      <div class="img-item has-border select-wrapper" :class="[size]" v-if="picList.length < 4">
+      <div class="img-item has-border select-wrapper" :class="[size]" v-if="picList.length < limit">
         <input type="file" class="file-select" @change="fileChange" accept="image/jpg,image/jpeg,image/png,image/PNG">
         <div class="show-area">
           <svg-icon icon-class="camera"  class="camera-class"/>
@@ -46,6 +46,14 @@ export default {
     maxHeight: {
       type: Number,
       default: 300
+    },
+    limit: {
+      type: Number,
+      default: 4
+    },
+    value: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -105,7 +113,6 @@ export default {
         context.drawImage(image, 0, 0, targetWidth, targetHeight)
 
         const newUrl = canvas.toDataURL('image/jpeg', 0.92)
-        _this.picList.push(newUrl)
         _this.doUpload(newUrl, fileName)
       }
       reader.readAsDataURL(file)
@@ -115,7 +122,9 @@ export default {
       const fd = new FormData()
       fd.append('file', blob, fileName)
       uploadImage(fd).then(res => {
-        console.log(res)
+        const url = ((res && res.data) || '').split(',')[0]
+        this.picList.push(url)
+        this.$emit('update:value', this.picList.join(','))
       })
     },
     dataURItoBlob (dataURI) {
@@ -132,6 +141,11 @@ export default {
   computed: {
     count () {
       return this.picList.length
+    }
+  },
+  watch: {
+    value (val) {
+      this.picList = val.split(',')
     }
   }
 }
