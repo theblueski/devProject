@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-22 22:12:01
- * @LastEditTime: 2019-10-27 21:23:19
+ * @LastEditTime: 2019-11-06 22:54:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/views/discover/discover.vue
@@ -19,7 +19,7 @@
             @click="goDetail(item)"
           >
             <div class="title">{{item.title}}</div>
-            <div class="date">{{item.date}}</div>
+            <div class="date">{{item.modifyDate}}</div>
           </div>
         </div>
       </list>
@@ -28,6 +28,8 @@
 </template>
 <script>
 import { NavBar, List } from 'vant'
+import { queryNewsList } from '@/api/upload.js'
+import { dateFormat } from '@/utils/format.js'
 export default {
   components: {
     [NavBar.name]: NavBar,
@@ -43,34 +45,32 @@ export default {
     }
   },
   methods: {
-    onLoad () {
-      let arr = [
-        {
-          title: '新闻标题',
-          date: '2019-10-21 19:00'
-        }
-      ]
-      setTimeout(() => {
-        this.list = arr
-        for (let i = 0; i < 10; i++) {
-          this.list.push({
-            title: '新闻标题',
-            date: '2019-10-21 19:00'
-          })
-        }
-        this.loading = false
 
-        if (this.list.length >= 11) {
+    onLoad () {
+      this.loading = true
+      this.initialList()
+    },
+    initialList () {
+      queryNewsList().then((res) => {
+        this.loading = false
+        this.finished = true
+        let arr = res.data
+        arr.forEach((item) => {
+          item.modifyDate = dateFormat('YYYY-mm-dd HH:MM', new Date(item.modifyDate))
+        })
+        this.list = arr
+      }, (err) => {
+        if (err) {
+          this.loading = false
           this.finished = true
         }
-      }, 100)
-      console.log(3)
+      })
     },
     goDetail (item) {
       this.$router.push({
         name: 'richPage',
         query: {
-          title: '养身'
+          newsId: item.id
         }
       })
     }
