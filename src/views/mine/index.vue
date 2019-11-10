@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-27 21:31:05
- * @LastEditTime: 2019-11-10 20:51:09
+ * @LastEditTime: 2019-11-10 20:52:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/views/mine/index.vue
@@ -40,7 +40,6 @@ export default {
     // window.document.cookie = 'nickname=nihao'
     this.imageUrl = window.getCookie('headimgurl')
     this.nickname = window.getCookie('nickname')
-    console.log(this.imageUrl)
   },
   methods: {
     goDevice () {
