@@ -16,7 +16,8 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        'utils': path.resolve('./src/utils')
+        'utils': path.resolve('./src/utils'),
+        'assets': path.resolve('./src/assets')
       }
     }
   },
