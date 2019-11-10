@@ -24,6 +24,10 @@
       ></field>
       <field required readonly clickable label="出生日期" placeholder="年/月/日" :value="formData.birthday" @click="openDatePicker('birthday')"
       />
+      <field readonly clickable label="母亲祖籍" placeholder="省/市" :value="formData.area" @click="chooseProv('area')"
+      />
+      <field readonly clickable label="患儿出生地" placeholder="省/市" :value="formData.birthPlace" @click="chooseProv('birthPlace')"
+      />
       <field
         placeholder="请输入您的手机号码"
         label="联系方式"
@@ -165,6 +169,7 @@
     <div class="submit" @click="doSubmit">提交</div>
     <pop-picker :field="field" :showPicker.sync="showPicker" :columns="currentOptions" @confirm="onConfirm"/>
     <pop-date-picker :dType="dateType" :field="dateField" :showPicker.sync="showDatePicker" @confirm="onDateConfirm"/>
+    <provin-select :showProv.sync=" showProv" @select="onProvSelec" :seledValue="defaultSeleProv"/>
   </div>
 </template>
 
@@ -176,6 +181,7 @@ import popDatePicker from '@/components/popDatePicker'
 import rules from './rules'
 import validator from 'utils/validator'
 import { submitPatient } from '@/api/form'
+import ProvinSelect from '@/components/ProvinSelect'
 export default {
   name: 'submitInfo',
   components: {
@@ -187,14 +193,18 @@ export default {
     RadioGroup,
     Radio,
     Checkbox,
-    CheckboxGroup
+    CheckboxGroup,
+    ProvinSelect
   },
   data () {
     return {
+      showProv: false,
       formData: {
         name: '',
         gender: 0,
         nation: '',
+        area: '',
+        birthPlace: '',
         phone: '',
         doctor: '',
         twins: 0,
@@ -217,7 +227,9 @@ export default {
         startWalkMonths: 0,
         badfootAngle: '',
         goodfootAngle: '',
-        remark: ''
+        remark: '',
+        areaCode: '',
+        birthPlaceCode: ''
       },
       footOptions: [{ text: '左侧', id: 1 }, { text: '右侧', id: 2 }, { text: '双侧', id: 3 }],
       footMap: { 1: '左侧', 2: '右侧', 3: '双侧' },
@@ -236,10 +248,24 @@ export default {
         prenatalJudgment: 1,
         type: 1,
         foot: 1
-      }
+      },
+      provFlag: null,
+      areaDefaultSel: '220500',
+      birthPlaceDefaultSel: '',
+      defaultSeleProv: null
     }
   },
   methods: {
+    onProvSelec (data) {
+      this[`${this.provFlag}Code`] = data.code
+      this.formData[this.provFlag] = data.name
+      this.provFlag = null
+    },
+    chooseProv (tag) {
+      this.defaultSeleProv = this[`${tag}DefaultSel`]
+      this.showProv = true
+      this.provFlag = tag
+    },
     chooseDoctor () {
       this.$router.push({
         path: '/doctorList'
