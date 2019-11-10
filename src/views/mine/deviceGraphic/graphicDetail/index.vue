@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-28 23:20:27
- * @LastEditTime: 2019-11-06 00:09:46
+ * @LastEditTime: 2019-11-10 10:21:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/views/mine/deviceGraphic/graphicDetail/index.vue
@@ -16,6 +16,7 @@
             class="begain-input"
             v-model="begainDate"
             placeholder="请选择日期"
+            readonly
             @click="chooseBegainDate('begain')"
           />
         </div>
@@ -24,17 +25,11 @@
         <div class="date-label">结束日期</div>
         <div class="date-input">
           <Field
+            readonly
             class="begain-input"
             v-model="endDate"
             placeholder="请选择日期"
             @click="chooseBegainDate('end')"
-          />
-          <datetime-picker
-            size="small"
-            v-model="currentDate"
-            type="date"
-            v-if="showEndDate"
-            :border="true"
           />
         </div>
       </div>
@@ -62,17 +57,18 @@
         <div class="no-data" v-else>暂无数据</div>
       </list>
     </div>
-    <div class="box-picker">
+    <div class="box-picker" v-if="false">
       <datetime-picker
         size="small"
         v-model="currentDate"
         type="date"
-        v-if="showDate"
+        v-if="showDate && false"
         :border="true"
         @confirm="onConfirm"
         @cancel="onCancel"
       />
     </div>
+    <pop-date-picker :date="currentDate" :showPicker.sync="showDate" @confirm="onConfirm" />
   </section>
 </template>
 <script>
@@ -80,14 +76,15 @@ import { DatetimePicker, Field, Button, List } from 'vant'
 import deviceListTable from '@/components/graphicDetail/deviceList'
 import { formatDate } from '@/utils/format'
 import { deviceList, deviceGraphicData } from '@/api/upload.js'
+import popDatePicker from '@/components/popDatePicker'
 export default {
   components: {
     DatetimePicker,
     Field,
     [Button.name]: Button,
     deviceListTable,
-    List
-
+    List,
+    popDatePicker
   },
   data: function () {
     return {
@@ -192,7 +189,11 @@ export default {
   .box-picker {
     position: absolute;
     bottom: 0;
-    width: 90%;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column-reverse;
+    background: rgba(0, 0, 0, 0.5);
   }
   .device-list {
     border-bottom: 10px solid #f2f2f2;

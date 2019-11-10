@@ -1,6 +1,14 @@
+<!--
+ * @Author: your name
+ * @Date: 2019-10-28 22:49:43
+ * @LastEditTime: 2019-11-10 10:20:36
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /devProject/src/components/popDatePicker/index.vue
+ -->
 <template>
   <popup v-model="show" position="bottom">
-    <datetime-picker :type="dType" @cancel="show = false" @confirm="onConfirm"/>
+    <datetime-picker v-model="date" :type="dType" @cancel="show = false" @confirm="onConfirm" />
   </popup>
 </template>
 
@@ -30,6 +38,10 @@ export default {
     dType: {
       type: String,
       default: 'date'
+    },
+    date: {
+      type: String,
+      default: ''
     }
   },
   methods: {
