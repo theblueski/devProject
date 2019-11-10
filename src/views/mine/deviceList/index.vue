@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-27 22:13:35
- * @LastEditTime: 2019-11-03 21:18:25
+ * @LastEditTime: 2019-11-10 20:04:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/views/mine/deviceList/index.vue
  -->
 <template>
   <section class="box-wrapper">
-    <div v-if="!deviceList.length && showTip" class="notice">
+    <div v-if="!deviceList.length" class="notice">
       <div>1.打开蓝牙</div>
       <div>2.将设备放置在1米之内</div>
     </div>
@@ -23,6 +23,7 @@
   </section>
 </template>
 <script>
+import { mapState } from 'vuex'
 import { deviceList } from '@/api/upload.js'
 export default {
   data: function () {
@@ -62,7 +63,18 @@ export default {
         }
       })
     }
+  },
+  computed: {
+    ...mapState('bluetooth', {
+      bluetoothList: state => state.bluetoothList
+    })
+  },
+  watch: {
+    bluetoothList: function (newVal, oldVal) {
+      console.log(this.bluetoothList, 'watch')
+    }
   }
+
 }
 </script>
 <style lang="scss" scoped>
