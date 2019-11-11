@@ -41,7 +41,9 @@ export default {
       this.showList = this.originList.filter(item => reg.test(item.name))
     },
     onCancel () {
-      this.$router.back()
+      // this.$router.back()
+      let res = window.jumpPre()
+      console.log(res)
     },
     handleClick (item) {
       let { doctorId, name } = item

@@ -14,8 +14,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    routeLen: 0
   },
   mutations: {
+    changeRouteLen (state, direction) {
+      state.routeLen = state.routeLen + direction
+    }
   },
   actions: {
   },
