@@ -7,19 +7,27 @@
  * @FilePath: /devProject/src/utils/globalFn.js
  */
 import store from '@/store'
-import router from '@/router'
 window.setBluetoothList = function (data) {
   store.commit('bluetooth/SETBLUETOOTHLIST', data)
   console.log(store.state, 'store')
 }
 
 window.jumpPre = function () {
-  let routeLen = store.state.routeLen
-  if (routeLen > 0) {
-    router.back()
-    return routeLen - 1
-  } else {
+  const tabList = ['submitInfo', 'mine', 'discover']
+  const path = window.location.href
+
+  let flag = false
+  tabList.forEach(item => {
+    if (path.indexOf(item) !== -1) {
+      flag = true
+    }
+  })
+
+  if (flag) {
     return 0
+  } else {
+    window.history.back()
+    return 1
   }
 }
 
