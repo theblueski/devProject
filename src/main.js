@@ -18,7 +18,6 @@ import echarts from 'echarts'
 
 import { Icon, Toast } from 'vant'
 import '@/utils/globalFn'
-import 'utils/historyHack'
 Vue.component('icon', Icon)
 Vue.use(Toast)
 

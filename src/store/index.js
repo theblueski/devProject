@@ -14,11 +14,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    routeLen: 0
+    doctorInfo: {}
   },
   mutations: {
-    changeRouteLen (state, direction) {
-      state.routeLen = state.routeLen + direction
+    setDoctorInfo (state, payload) {
+      state.doctorInfo = payload || {}
     }
   },
   actions: {

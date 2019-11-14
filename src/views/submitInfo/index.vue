@@ -104,8 +104,8 @@
       <field required readonly clickable label="患侧足" :value="formData.foot" @click="openPicker('foot')"
       />
     </cell-group>
-    <cell-group :value.sync="formData.footPicture" class="cell-group">
-      <up-loader iconTitle="患足图片">
+    <cell-group class="cell-group">
+      <up-loader :value.sync="formData.footPicture" iconTitle="患足图片">
         <template v-slot:title="{count}">
           <div class="title-area">
             <span>治疗前患足图片</span>
@@ -168,8 +168,8 @@
     </cell-group>
     <div class="submit" @click="doSubmit">提交</div>
     <pop-picker :field="field" :showPicker.sync="showPicker" :columns="currentOptions" @confirm="onConfirm"/>
-    <pop-date-picker :dType="dateType" :field="dateField" :showPicker.sync="showDatePicker" @confirm="onDateConfirm"/>
-    <provin-select :showProv.sync=" showProv" @select="onProvSelec" :seledValue="defaultSeleProv"/>
+    <pop-date-picker :date="seledDate" :dType="dateType" :field="dateField" :showPicker.sync="showDatePicker" @confirm="onDateConfirm"/>
+    <provin-select :showProv.sync="showProv" @select="onProvSelec" :seledValue="defaultSeleProv"/>
   </div>
 </template>
 
@@ -180,7 +180,7 @@ import popPicker from '@/components/popPicker'
 import popDatePicker from '@/components/popDatePicker'
 import rules from './rules'
 import validator from 'utils/validator'
-import { submitPatient } from '@/api/form'
+import { submitPatient } from '@/api/form'  // eslint-disable-line
 import ProvinSelect from '@/components/ProvinSelect'
 export default {
   name: 'submitInfo',
@@ -250,14 +250,15 @@ export default {
         foot: 1
       },
       provFlag: null,
-      areaDefaultSel: '220500',
+      areaDefaultSel: '',
       birthPlaceDefaultSel: '',
-      defaultSeleProv: null
+      defaultSeleProv: null,
+      seledDate: ''
     }
   },
   methods: {
     onProvSelec (data) {
-      this[`${this.provFlag}Code`] = data.code
+      this.formData[`${this.provFlag}Code`] = data.code
       this.formData[this.provFlag] = data.name
       this.provFlag = null
     },
@@ -276,10 +277,12 @@ export default {
         this.dateType = type
       }
       this.dateField = field
+      this.seledDate = this.formData[field]
       this.showDatePicker = true
     },
     onDateConfirm (data) {
       this.formData[this.dateField] = data
+      this.seledDate = ''
     },
     onConfirm (data) {
       this.formData[this.field] = this[`${this.field}Map`][data.id]
@@ -289,6 +292,19 @@ export default {
       this.field = field
       this.currentOptions = this[`${field}Options`]
       this.showPicker = true
+    },
+    fillform (data) {
+      data.pregnancyMalady = data.pregnancyMalady.split(',')
+      data.habits = data.habits.split(',')
+      this.formData = data
+      this.extraFormData.prenatalJudgment = data.prenatalJudgment
+      this.extraFormData.type = data.type
+      this.extraFormData.foot = data.foot
+      this.formData.prenatalJudgment = this.prenatalJudgmentMap[data.prenatalJudgment]
+      this.formData.type = this.typeMap[data.type]
+      this.formData.foot = this.footMap[data.foot]
+      this.areaDefaultSel = data.areaCode
+      this.birthPlaceDefaultSel = data.birthPlaceCode
     },
     doSubmit () {
       this.validator.validate((errors, fields) => {
@@ -300,9 +316,9 @@ export default {
           params.habits = params.habits.join(',')
           // 这里需要添加openid才能提交
           console.log(params)
-          submitPatient(params).then(res => {
-            console.log(res)
-          })
+          // submitPatient(params).then(res => {
+          //   console.log(res)
+          // })
         }
       })
     }
@@ -311,7 +327,7 @@ export default {
     this.validator = validator(rules, this.formData)
   },
   activated () {
-    const { name, doctorId } = this.$route.query
+    const { name, doctorId } = this.$store.state.doctorInfo
     this.extraFormData.doctor = doctorId
     this.formData.doctor = name
   },

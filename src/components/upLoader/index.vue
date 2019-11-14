@@ -68,6 +68,7 @@ export default {
       for (let i = 0; i < this.picList.length; i++) {
         if (index === i) {
           this.picList.splice(i, 1)
+          this.$emit('update:value', this.picList.join(','))
           break
         }
       }
@@ -143,9 +144,18 @@ export default {
       return this.picList.length
     }
   },
+  created () {
+    if (this.value) {
+      this.picList = this.value.split(',')
+    }
+  },
   watch: {
     value (val) {
-      this.picList = val.split(',')
+      if (val) {
+        this.picList = val.split(',')
+      } else {
+        this.picList = []
+      }
     }
   }
 }

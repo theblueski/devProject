@@ -41,16 +41,12 @@ export default {
       this.showList = this.originList.filter(item => reg.test(item.name))
     },
     onCancel () {
-      // this.$router.back()
-      let res = window.jumpPre()
-      console.log(res)
+      this.$router.back()
     },
     handleClick (item) {
       let { doctorId, name } = item
-      this.$router.replace({
-        path: '/submitInfo',
-        query: { doctorId, name }
-      })
+      this.$store.commit('setDoctorInfo', { doctorId, name })
+      this.$router.back()
     }
   },
   created () {

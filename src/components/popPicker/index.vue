@@ -1,6 +1,6 @@
 <template>
   <popup v-model="show" position="bottom">
-    <picker show-toolbar :columns="columns" @cancel="show = false" @confirm="onConfirm"/>
+    <picker :default-index="defaultSel" show-toolbar :columns="columns" @cancel="show = false" @confirm="onConfirm"/>
   </popup>
 </template>
 
@@ -31,6 +31,9 @@ export default {
     field: {
       type: String,
       default: ''
+    },
+    defaultSel: {
+      default: 0
     }
   },
   methods: {
