@@ -7,14 +7,13 @@ export function getDoctor () {
 }
 
 export function submitPatient (data) {
-  return fetch.post('/smartfeet/submitPatientDetail', data, {
-    withCredentials: true,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  })
+  return fetch.post('/smartfeet/submitPatientDetail', data)
 }
 
-export function getPatient (data) {
-  return fetch.post('/smartfeet/getDetails', data)
+export function getPatient (unionid) {
+  return fetch.get('/smartfeet/getDetails', {
+    params: {
+      unionid
+    }
+  })
 }

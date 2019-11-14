@@ -180,7 +180,7 @@ import popPicker from '@/components/popPicker'
 import popDatePicker from '@/components/popDatePicker'
 import rules from './rules'
 import validator from 'utils/validator'
-import { submitPatient } from '@/api/form'  // eslint-disable-line
+import { submitPatient, getPatient } from '@/api/form'  // eslint-disable-line
 import ProvinSelect from '@/components/ProvinSelect'
 import { getToken } from 'utils/auth'
 export default {
@@ -295,6 +295,12 @@ export default {
       this.currentOptions = this[`${field}Options`]
       this.showPicker = true
     },
+    getFormData () {
+      return getPatient(getToken()).then(res => {
+        const formData = res.data || {}
+        this.fillform(formData)
+      })
+    },
     fillform (data) {
       data.pregnancyMalady = data.pregnancyMalady.split(',')
       data.habits = data.habits.split(',')
@@ -316,16 +322,20 @@ export default {
           let params = { ...this.formData, ...this.extraFormData }
           params.pregnancyMalady = params.pregnancyMalady.join(',')
           params.habits = params.habits.join(',')
-          params.openId = getToken() || '123456'
-          submitPatient(params).then(res => {
-            console.log(res)
-          })
+          params.openId = getToken()
+          if (getToken()) {
+            submitPatient(params).then(res => {
+              this.$toast('提交成功')
+            })
+          }
         }
       })
     }
   },
   created () {
-    this.validator = validator(rules, this.formData)
+    this.getFormData().finally(() => {
+      this.validator = validator(rules, this.formData)
+    })
   },
   activated () {
     const { name, doctorId } = this.$store.state.doctorInfo
