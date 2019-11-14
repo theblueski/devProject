@@ -7,5 +7,14 @@ export function getDoctor () {
 }
 
 export function submitPatient (data) {
-  return fetch.post('/smartfeet/submitDetails', data)
+  return fetch.post('/smartfeet/submitPatientDetail', data, {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}
+
+export function getPatient (data) {
+  return fetch.post('/smartfeet/getDetails', data)
 }

@@ -182,6 +182,7 @@ import rules from './rules'
 import validator from 'utils/validator'
 import { submitPatient } from '@/api/form'  // eslint-disable-line
 import ProvinSelect from '@/components/ProvinSelect'
+import { getToken } from 'utils/auth'
 export default {
   name: 'submitInfo',
   components: {
@@ -207,6 +208,7 @@ export default {
         birthPlace: '',
         phone: '',
         doctor: '',
+        doctorId: '',
         twins: 0,
         heredity: 0,
         pregnancyMalady: [],
@@ -314,11 +316,10 @@ export default {
           let params = { ...this.formData, ...this.extraFormData }
           params.pregnancyMalady = params.pregnancyMalady.join(',')
           params.habits = params.habits.join(',')
-          // 这里需要添加openid才能提交
-          console.log(params)
-          // submitPatient(params).then(res => {
-          //   console.log(res)
-          // })
+          params.openId = getToken() || '123456'
+          submitPatient(params).then(res => {
+            console.log(res)
+          })
         }
       })
     }
@@ -328,7 +329,7 @@ export default {
   },
   activated () {
     const { name, doctorId } = this.$store.state.doctorInfo
-    this.extraFormData.doctor = doctorId
+    this.formData.doctorId = doctorId
     this.formData.doctor = name
   },
   watch: {
