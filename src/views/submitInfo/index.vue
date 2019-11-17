@@ -202,15 +202,16 @@ export default {
       showProv: false,
       formData: {
         name: '',
-        gender: 0,
+        gender: '0',
         nation: '',
+        birthday: undefined,
         area: '',
         birthPlace: '',
         phone: '',
         doctor: '',
         doctorId: '',
-        twins: 0,
-        heredity: 0,
+        twins: '0',
+        heredity: '0',
         pregnancyMalady: [],
         habits: [],
         startWalk: 0,
@@ -223,9 +224,9 @@ export default {
         footPicture: '',
         startTreatDate: undefined,
         startShoeDate: undefined,
-        castsTimes: 0,
+        castsTimes: null,
         castsAfterTimes: 0,
-        surgeryTimes: 0,
+        surgeryTimes: '0',
         startWalkMonths: 0,
         badfootAngle: '',
         goodfootAngle: '',
@@ -302,8 +303,13 @@ export default {
       })
     },
     fillform (data) {
-      data.pregnancyMalady = data.pregnancyMalady.split(',')
-      data.habits = data.habits.split(',')
+      data.pregnancyMalady = (data.pregnancyMalady || '').split(',')
+      data.habits = (data.habits || '').split(',')
+      data.gender = data.gender ? '1' : '0'
+      data.twins = data.twins ? '1' : '0'
+      data.heredity = data.heredity ? '1' : '0'
+      data.remark = data.remark || ''
+
       this.formData = data
       this.extraFormData.prenatalJudgment = data.prenatalJudgment
       this.extraFormData.type = data.type
@@ -323,7 +329,7 @@ export default {
           params.pregnancyMalady = params.pregnancyMalady.join(',')
           params.habits = params.habits.join(',')
           params.openId = getToken()
-          if (getToken()) {
+          if (params.openId) {
             submitPatient(params).then(res => {
               this.$toast('提交成功')
             })
@@ -341,13 +347,6 @@ export default {
     const { name, doctorId } = this.$store.state.doctorInfo
     this.formData.doctorId = doctorId
     this.formData.doctor = name
-  },
-  watch: {
-    'formData.startShoeDate': {
-      handler (val) {
-        console.log(val)
-      }
-    }
   }
 }
 </script>
