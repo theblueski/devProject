@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-27 22:13:35
- * @LastEditTime: 2019-11-10 20:04:28
+ * @LastEditTime: 2019-11-20 22:24:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/views/mine/deviceList/index.vue
@@ -25,6 +25,7 @@
 <script>
 import { mapState } from 'vuex'
 import { deviceList } from '@/api/upload.js'
+import { getToken } from '@/utils/auth'
 export default {
   data: function () {
     return {
@@ -38,10 +39,7 @@ export default {
   },
   methods: {
     getDeviceList () {
-      //   let data = {
-      //     unionid: 'okRox1VITaLC1gThhQJkqXfrofQg'
-      //   }
-      let data = 'unionid=okRox1VITaLC1gThhQJkqXfrofQg'
+      let data = `unionid=${getToken()}`
       deviceList(data).then(res => {
         if (res.code === '200') {
           this.deviceList = res.data

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-27 23:11:03
- * @LastEditTime: 2019-11-06 22:18:35
+ * @LastEditTime: 2019-11-20 22:27:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/views/mine/deviceGraphic/index.vue
@@ -28,6 +28,7 @@
 import Echarts from 'echarts'
 import { deviceGraphicDataForId } from '@/api/upload.js'
 import { formatDate } from '@/utils/format.js'
+import { getToken } from '@/utils/auth'
 export default {
   data: function () {
     return {
@@ -39,7 +40,7 @@ export default {
         startDate: '2018-12-26',
         endDate: '2019-01-01',
         deviceId: this.$route.query.id || 'F8:36:9B:75:B8:32',
-        unionid: 'oYEDb4puZXiJ5kngE-FaTVcN1wuo'
+        unionid: getToken()
       },
       lineOption: {
         title: {

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-28 23:20:27
- * @LastEditTime: 2019-11-10 10:21:26
+ * @LastEditTime: 2019-11-20 22:29:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/views/mine/deviceGraphic/graphicDetail/index.vue
@@ -77,6 +77,7 @@ import deviceListTable from '@/components/graphicDetail/deviceList'
 import { formatDate } from '@/utils/format'
 import { deviceList, deviceGraphicData } from '@/api/upload.js'
 import popDatePicker from '@/components/popDatePicker'
+import { getToken } from '@/utils/auth'
 export default {
   components: {
     DatetimePicker,
@@ -123,7 +124,7 @@ export default {
       // 获取数据
     },
     getDeviceList () {
-      let data = 'unionid=okRox1VITaLC1gThhQJkqXfrofQg'
+      let data = `unionid=${getToken()}`
       deviceList(data).then(
         (res) => {
           let arr = res.data
@@ -167,10 +168,9 @@ export default {
     getTableList () {
       let data = ''
       if (!this.currentDeviceId) {
-        data = `startDate=${this.begainDate}&endDate=${this.endDate}&unionid=oYEDb4puZXiJ5kngE-FaTVcN1wuo`
+        data = `startDate=${this.begainDate}&endDate=${this.endDate}&unionid=${getToken()}`
       } else {
-        data = `startDate=${this.begainDate}&endDate=${this.endDate}&unionid=oYEDb4puZXiJ5kngE-FaTVcN1wuo&deviceId=${this.deviceListData[this.currentRadio - 1].deviceId}`
-        // data = `startDate=2018-12-26&endDate=2019-01-01&unionid=oYEDb4puZXiJ5kngE-FaTVcN1wuo&deviceId=F8:36:9B:75:B8:32`
+        data = `startDate=${this.begainDate}&endDate=${this.endDate}&unionid=${getToken()}&deviceId=${this.deviceListData[this.currentRadio - 1].deviceId}`
       }
       deviceGraphicData(data).then(res => {
         this.deviceData = res.data.list
