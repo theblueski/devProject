@@ -79,7 +79,9 @@ const router = new VueRouter({
 })
 
 router.afterEach((to, from) => {
-  window.title = to.name
+  if (to.name !== 'richPage') {
+    window.title = to.name
+  }
 })
 
 export default router
