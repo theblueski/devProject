@@ -20,7 +20,7 @@ const routes = [
   },
   {
     path: '/discover',
-    name: 'discover',
+    name: '发现',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -36,7 +36,7 @@ const routes = [
   },
   {
     path: '/submitInfo',
-    name: 'submitInfo',
+    name: '登记基本信息',
     component: () => import(/* webpackChunkName: "submitInfo" */ '@/views/submitInfo/index.vue'),
     meta: {
       keepAlive: true
@@ -44,12 +44,12 @@ const routes = [
   },
   {
     path: '/mine',
-    name: 'mine',
+    name: '我的',
     component: () => import(/* webpackChunkName: "mine" */ '@/views/mine/index.vue')
   },
   {
     path: '/deviceList',
-    name: 'deviceList',
+    name: '我的设备',
     component: () => import(/* webpackChunkName: "deviceList" */ '@/views/mine/deviceList/index.vue')
   },
   {
@@ -69,13 +69,19 @@ const routes = [
   },
   {
     path: '/doctorList',
-    name: 'doctorList',
+    name: '智能支具平台',
     component: () => import(/* webpackChunkName: "doctorList" */ '@/views/DoctorList/index.vue')
   }
 ]
 
 const router = new VueRouter({
   routes
+})
+
+router.afterEach((to, from) => {
+  if (to.name !== 'richPage') {
+    window.title = to.name
+  }
 })
 
 export default router
