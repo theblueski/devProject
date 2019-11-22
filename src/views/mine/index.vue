@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-27 21:31:05
- * @LastEditTime: 2019-11-20 22:01:21
+ * @LastEditTime: 2019-11-23 00:41:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/views/mine/index.vue
@@ -40,7 +40,7 @@ export default {
     // window.document.cookie = 'headimgurl=http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/0'
     // window.document.cookie = 'nickname=nihao'
     this.imageUrl = window.getCookie('headimgurl')
-    this.nickname = getToken()
+    this.nickname = window.getCookie('nickname')
   },
   methods: {
     goDevice () {
