@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-27 21:31:05
- * @LastEditTime: 2019-11-23 00:41:49
+ * @LastEditTime: 2019-11-23 00:44:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /devProject/src/views/mine/index.vue
@@ -25,7 +25,6 @@
 </template>
 <script>
 import { Image } from 'vant'
-import { getToken } from '@/utils/auth'
 export default {
   data: function () {
     return {
