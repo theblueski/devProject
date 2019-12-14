@@ -44,7 +44,7 @@ export default {
   methods: {
     goDevice () {
       this.$router.push({
-        name: 'deviceList'
+        path: '/deviceList'
       })
     },
     goCase () {

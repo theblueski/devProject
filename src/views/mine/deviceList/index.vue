@@ -36,6 +36,9 @@ export default {
   created () {
     // this.deviceList = []
     this.getDeviceList()
+    window.sendDataCallback = () => {
+      this.getDeviceList()
+    }
   },
   methods: {
     getDeviceList () {
