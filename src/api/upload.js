@@ -7,6 +7,7 @@
  * @FilePath: /devProject/src/api/upload.js
  */
 import fetch from 'utils/fetch'
+import { getToken } from '@/utils/auth' // eslint-disable-line
 
 export function uploadImage (data) {
   return fetch.post(
@@ -75,6 +76,35 @@ export function queryNewsList (data) {
 export function queryNewsContent (data) {
   return fetch.post(
     '/smartfeet/news/newsDetail',
+    data,
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+  )
+}
+
+export function getIllnessCaseList () {
+  // const data = `page=0&size=200&unionid=${getToken()}`
+  const data = `page=0&size=200&unionid=okRox1XRMovZBcctZ-_k8F9rZrFo`
+  return fetch.post(
+    '/smartfeet/app/illnessCaseList',
+    data,
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+  )
+}
+
+export function getIllnessCaseDetail (id) {
+  const data = `illnessCaseId=${id}`
+  return fetch.post(
+    '/smartfeet/app/illnessCaseDetail',
     data,
     {
       withCredentials: true,

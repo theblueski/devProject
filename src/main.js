@@ -17,7 +17,9 @@ import '@/icons'
 import echarts from 'echarts'
 
 import { Icon, Toast } from 'vant'
+
 import '@/utils/globalFn'
+
 Vue.component('icon', Icon)
 Vue.use(Toast)
 

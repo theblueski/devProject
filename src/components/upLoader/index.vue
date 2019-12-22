@@ -6,9 +6,9 @@
     <div class="content-area">
       <div v-for="(item,index) in picList" :key="index" class="img-item has-border" :class="[size]" @click="popDetail(item)">
         <img :src="item" alt="">
-        <div class="del-area"  @click.self.stop="removePic(index)">删除</div>
+        <div v-if='!disable' class="del-area"  @click.self.stop="removePic(index)">删除</div>
       </div>
-      <div class="img-item has-border select-wrapper" :class="[size]" v-if="picList.length < limit">
+      <div class="img-item has-border select-wrapper" :class="[size]" v-if="picList.length < limit && !disable">
         <input type="file" class="file-select" @change="fileChange" accept="image/jpg,image/jpeg,image/png,image/PNG">
         <div class="show-area">
           <svg-icon icon-class="camera"  class="camera-class"/>
@@ -41,11 +41,11 @@ export default {
     },
     maxWidth: {
       type: Number,
-      default: 300
+      default: 900
     },
     maxHeight: {
       type: Number,
-      default: 300
+      default: 900
     },
     limit: {
       type: Number,
@@ -54,6 +54,10 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    disable: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

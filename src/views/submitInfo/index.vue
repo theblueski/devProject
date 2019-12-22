@@ -2,6 +2,7 @@
   <div class="form-wrapper">
     <cell-group title="登记基本信息" class="cell-group">
       <field
+        :disabled = 'isEditable'
         placeholder="请输入患儿真实姓名"
         label="患儿姓名"
         v-model="formData.name"
@@ -11,12 +12,13 @@
         label="患儿性别"
         required
       >
-        <radio-group slot="input" v-model="formData.gender">
+        <radio-group  :disabled = 'isEditable' slot="input" v-model="formData.gender">
           <radio name="0">女</radio>
           <radio name="1">男</radio>
         </radio-group>
       </field>
       <field
+        :disabled = 'isEditable'
         placeholder="请输入患儿民族"
         label="患儿民族"
         v-model="formData.nation"
@@ -29,6 +31,7 @@
       <field readonly clickable label="患儿出生地" placeholder="省/市" :value="formData.birthPlace" @click="chooseProv('birthPlace')"
       />
       <field
+        :disabled = 'isEditable'
         placeholder="请输入您的手机号码"
         label="联系方式"
         v-model="formData.phone"
@@ -46,7 +49,7 @@
         label="双胞胎"
         required
       >
-        <radio-group slot="input" v-model="formData.twins">
+        <radio-group :disabled = 'isEditable' slot="input" v-model="formData.twins">
           <radio name="0">否</radio>
           <radio name="1">是</radio>
         </radio-group>
@@ -55,7 +58,7 @@
         label="家族史"
         required
       >
-        <radio-group slot="input" v-model="formData.heredity">
+        <radio-group :disabled = 'isEditable' slot="input" v-model="formData.heredity">
           <radio name="0">否</radio>
           <radio name="1">是</radio>
         </radio-group>
@@ -63,7 +66,7 @@
       <field
         label="孕期病症"
       >
-        <checkbox-group slot="input" v-model="formData.pregnancyMalady">
+        <checkbox-group :disabled = 'isEditable' slot="input" v-model="formData.pregnancyMalady">
           <checkbox name="1">高血压</checkbox>
           <checkbox name="2">高血糖</checkbox>
           <checkbox name="3">贫血</checkbox>
@@ -74,18 +77,20 @@
       <field
         label="生活习惯"
       >
-        <checkbox-group slot="input" v-model="formData.habits">
+        <checkbox-group :disabled = 'isEditable' slot="input" v-model="formData.habits">
           <checkbox name="1">抽烟</checkbox>
           <checkbox name="2">喝酒</checkbox>
           <checkbox name="3">常熬夜</checkbox>
         </checkbox-group>
       </field>
       <field
+        :disabled = 'isEditable'
         placeholder="请输入患儿父亲职业"
         label="父亲职业"
         v-model="formData.fatherOccupation"
       ></field>
       <field
+        :disabled = 'isEditable'
         placeholder="请输入患儿母亲职业"
         label="母亲职业"
         v-model="formData.motherOccupation"
@@ -94,7 +99,7 @@
       />
     </cell-group>
     <cell-group class="cell-group">
-      <up-loader :value.sync="formData.ultrasoundResult" iconTitle="B超结果" size="medium" :limit="1">
+      <up-loader :disable="isEditable" :value.sync="formData.ultrasoundResult" iconTitle="B超结果" size="medium" :limit="1">
         <div slot="title" class="title-area">
           <span>B超结果</span>
         </div>
@@ -105,7 +110,7 @@
       />
     </cell-group>
     <cell-group class="cell-group">
-      <up-loader :value.sync="formData.footPicture" iconTitle="患足图片">
+      <up-loader :disable="isEditable" :value.sync="formData.footPicture" iconTitle="患足图片">
         <template v-slot:title="{count}">
           <div class="title-area">
             <span>治疗前患足图片</span>
@@ -120,12 +125,14 @@
       <field readonly clickable label="开始穿鞋时间" placeholder="年/月/日" :value="formData.startShoeDate" @click="openDatePicker('startShoeDate')"
       />
       <field
+        :disabled = 'isEditable'
         placeholder="术前石膏次数"
         label="术前石膏次数"
         v-model="formData.castsTimes"
         required
       ></field>
       <field
+        :disabled = 'isEditable'
         placeholder="术后石膏次数"
         label="术后石膏次数"
         v-model="formData.castsAfterTimes"
@@ -134,28 +141,32 @@
         label="是否跟腱手术"
         required
       >
-        <radio-group slot="input" v-model="formData.surgeryTimes">
+        <radio-group :disabled = 'isEditable' slot="input" v-model="formData.surgeryTimes">
           <radio name="1">是</radio>
           <radio name="0">否</radio>
         </radio-group>
       </field>
       <field
+        :disabled = 'isEditable'
         label="开始走路月龄"
         v-model="formData.startWalkMonths"
       ></field>
       <field required readonly clickable label="支具类型" :value="formData.type" @click="openPicker('type')"
       />
       <field
+        :disabled = 'isEditable'
         placeholder="如患足60-70度，健足30-40度"
         label="左侧支具角度"
         v-model="formData.badfootAngle"
       ></field>
       <field
+        :disabled = 'isEditable'
         placeholder="如患足60-70度，健足30-40度"
         label="右侧支具角度"
         v-model="formData.goodfootAngle"
       ></field>
       <field
+        :disabled = 'isEditable'
         placeholder="备注"
         label="备注"
         v-model="formData.remark"
@@ -166,7 +177,7 @@
         show-word-limit
       ></field>
     </cell-group>
-    <div class="submit" @click="doSubmit">提交</div>
+    <div class="submit" @click="doSubmit" v-if="!isEditable">提交</div>
     <pop-picker :field="field" :showPicker.sync="showPicker" :columns="currentOptions" @confirm="onConfirm"/>
     <pop-date-picker :date="seledDate" :dType="dateType" :field="dateField" :showPicker.sync="showDatePicker" @confirm="onDateConfirm"/>
     <provin-select :showProv.sync="showProv" @select="onProvSelec" :seledValue="defaultSeleProv"/>
@@ -199,6 +210,7 @@ export default {
   },
   data () {
     return {
+      isEditable: true,
       showProv: false,
       formData: {
         name: '',
@@ -266,16 +278,19 @@ export default {
       this.provFlag = null
     },
     chooseProv (tag) {
+      if (this.isEditable) return
       this.defaultSeleProv = this[`${tag}DefaultSel`]
       this.showProv = true
       this.provFlag = tag
     },
     chooseDoctor () {
+      if (this.isEditable) return
       this.$router.push({
         path: '/doctorList'
       })
     },
     openDatePicker (field, type) {
+      if (this.isEditable) return
       if (type) {
         this.dateType = type
       }
@@ -292,6 +307,7 @@ export default {
       this.extraFormData[this.field] = data.id
     },
     openPicker (field) {
+      if (this.isEditable) return
       this.field = field
       this.currentOptions = this[`${field}Options`]
       this.showPicker = true
@@ -342,6 +358,7 @@ export default {
     this.getFormData().finally(() => {
       this.validator = validator(rules, this.formData)
     })
+    this.isEditable = this.$route.meta.disable
   },
   activated () {
     const { name, doctorId } = this.$store.state.doctorInfo

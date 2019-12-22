@@ -49,7 +49,7 @@ export default {
     },
     goCase () {
       this.$router.push({
-        name: 'caseDetail'
+        path: '/caseDetail/detailInfo'
       })
     }
   }

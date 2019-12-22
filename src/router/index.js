@@ -55,7 +55,17 @@ const routes = [
   {
     path: '/caseDetail',
     name: 'caseDetail',
-    component: () => import(/* webpackChunkName: "caseDetail" */ '@/views/mine/caseDetail/index.vue')
+    component: () => import(/* webpackChunkName: "caseDetail" */ '@/views/mine/caseDetail/index.vue'),
+    children: [
+      {
+        path: 'detailInfo',
+        name: '病历信息',
+        component: () => import(/* webpackChunkName: "detailInfo" */ '@/views/submitInfo/index.vue'),
+        meta: {
+          disable: true
+        }
+      }
+    ]
   },
   {
     path: '/graphicPage',
@@ -71,6 +81,10 @@ const routes = [
     path: '/doctorList',
     name: '智能支具平台',
     component: () => import(/* webpackChunkName: "doctorList" */ '@/views/DoctorList/index.vue')
+  }, {
+    path: '/reexamination',
+    name: '复查信息详情',
+    component: () => import(/* webpackChunkName: "reexamination" */ '@/views/reexamination/index.vue')
   }
 ]
 
